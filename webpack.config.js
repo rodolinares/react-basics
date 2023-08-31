@@ -2,6 +2,7 @@
 
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { DefinePlugin, ProvidePlugin } = require("webpack");
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -19,9 +20,12 @@ const config = {
     new HtmlWebpackPlugin({
       template: "index.html",
     }),
-
-    // Add your plugins here
-    // Learn more about plugins from https://webpack.js.org/configuration/plugins/
+    new DefinePlugin({
+      IS_PRODUCTION: JSON.stringify(isProduction),
+    }),
+    new ProvidePlugin({
+      React: "react",
+    }),
   ],
   module: {
     rules: [
@@ -37,9 +41,6 @@ const config = {
         test: /\.css$/i,
         use: ["style-loader", "css-loader"],
       },
-
-      // Add your rules for custom modules here
-      // Learn more about loaders from https://webpack.js.org/loaders/
     ],
   },
 };
