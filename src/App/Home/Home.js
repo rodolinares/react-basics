@@ -1,7 +1,13 @@
-import logo from "../../logo.svg";
+import Agent from "../Agent/Agent";
+import Participant from "../Participant/Participant";
 import RoundedSwitch from "../Shared/RoundedSwitch/RoundedSwitch";
+import { useIsAgentEnabled } from "../../contexts/is-agent-enabled-context";
+import logo from "../../logo.svg";
 
 const Home = () => {
+  const { state } = useIsAgentEnabled();
+  const { isEnabled } = state;
+
   // eslint-disable-next-line no-undef
   const isProduction = JSON.parse(IS_PRODUCTION);
 
@@ -19,7 +25,14 @@ const Home = () => {
           {!isProduction && <span>Development</span>}
         </p>
 
-        <RoundedSwitch />
+        <div>
+          <span>Participant</span>
+          <RoundedSwitch />
+          <span>Agent</span>
+        </div>
+
+        {isEnabled && <Agent />}
+        {!isEnabled && <Participant />}
 
         <a
           className="App-link"
